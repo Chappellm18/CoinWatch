@@ -57,10 +57,6 @@ const ApiComponent: React.FC = () => {
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
                   Cryptocurrency Prices by Market Cap
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-neutral-400">
-                  The global cryptocurrency market cap today is $1.09 Trillion, a{' '}
-                  <span className="text-green-500">0.5%</span> change in the last 24 hours.
-                </p>
               </div>
 
               {/* Table */}
@@ -75,8 +71,7 @@ const ApiComponent: React.FC = () => {
                       '24h',
                       '7d',
                       '24h Volume',
-                      'Mkt Cap',
-                      'Last 7 days'
+                      'Mkt Cap'                    
                     ].map((header) => (
                       <th
                         key={header}
@@ -114,7 +109,6 @@ const ApiComponent: React.FC = () => {
                       </td>
                       <td className="whitespace-nowrap px-6 py-3">${item.volume24}</td>
                       <td className="whitespace-nowrap px-6 py-3">${item.market_cap_usd}</td>
-                      <td className="whitespace-nowrap px-6 py-3">📊</td>
                     </tr>
                   ))}
                 </tbody>
