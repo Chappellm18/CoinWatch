@@ -1,10 +1,9 @@
-import Image from "next/image";
-import ApiComponent from './api/coins/route';
+import HomeComponent from "./pages/home";
 
 
 export default function Home() {
 
   return (
-    <ApiComponent />
+    <HomeComponent />
   );
 }

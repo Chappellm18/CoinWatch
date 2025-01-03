@@ -87,7 +87,7 @@ const ApiComponent: React.FC = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                   {data.map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} >
                       <td className="whitespace-nowrap px-6 py-3">{item.rank}</td>
                       <td className="whitespace-nowrap px-6 py-3 flex items-center gap-x-2">
                         <span className="font-semibold text-sm text-gray-800 dark:text-white">
@@ -97,18 +97,31 @@ const ApiComponent: React.FC = () => {
                           {item.nameid}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-6 py-3">${item.price_usd}</td>
-                      <td className="whitespace-nowrap px-6 py-3 text-red-500">
-                        {item.percent_change_1h}%
+                      <td className="whitespace-nowrap px-6 py-3">
+                        ${+item.price_usd < 1 
+                          ? Number(item.price_usd).toString() 
+                          : Number(item.price_usd).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
-                      <td className="whitespace-nowrap px-6 py-3 text-green-500">
-                        {item.percent_change_24h}%
+
+                      <td className={`whitespace-nowrap px-6 py-3 ${+item.percent_change_1h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      {item.percent_change_1h}%
                       </td>
-                      <td className="whitespace-nowrap px-6 py-3 text-red-500">
-                        {item.percent_change_7d}%
+                      <td className={`whitespace-nowrap px-6 py-3 ${+item.percent_change_24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      {item.percent_change_24h}%
                       </td>
-                      <td className="whitespace-nowrap px-6 py-3">${item.volume24}</td>
-                      <td className="whitespace-nowrap px-6 py-3">${item.market_cap_usd}</td>
+                      <td className={`whitespace-nowrap px-6 py-3 ${+item.percent_change_7d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      {item.percent_change_7d}%
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-3">
+                        ${+item.volume24 < 1 
+                          ? Number(item.volume24).toString() 
+                          : Number(item.volume24).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-3">
+                        ${+item.market_cap_usd < 1 
+                          ? Number(item.market_cap_usd).toString() 
+                          : Number(item.market_cap_usd).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
