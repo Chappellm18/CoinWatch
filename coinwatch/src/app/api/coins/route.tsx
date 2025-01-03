@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -34,8 +33,8 @@ const ApiComponent: React.FC = () => {
           'https://api.coinlore.net/api/tickers/'
         );
         setData(response.data.data); // Access the 'data' array from the response
-      } catch (err) {
-        setError('Failed to fetch data');
+      } catch (err: any) {
+        setError(err.message || 'Failed to fetch data');
       } finally {
         setLoading(false);
       }
@@ -48,15 +47,82 @@ const ApiComponent: React.FC = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h2>API Data</h2>
-      {data.map((item) => (
-        <div key={item.id}>
-          <h3>{item.name} ({item.symbol})</h3>
-          <p>Price (USD): ${item.price_usd}</p>
-          <p>Market Cap: ${item.market_cap_usd}</p>
+    <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div className="flex flex-col">
+        <div className="-m-1.5 overflow-x-auto">
+          <div className="p-1.5 min-w-full inline-block align-middle">
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-neutral-900 dark:border-neutral-700">
+              {/* Header */}
+              <div className="px-6 py-4 border-b border-gray-200 dark:border-neutral-700">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
+                  Cryptocurrency Prices by Market Cap
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-neutral-400">
+                  The global cryptocurrency market cap today is $1.09 Trillion, a{' '}
+                  <span className="text-green-500">0.5%</span> change in the last 24 hours.
+                </p>
+              </div>
+
+              {/* Table */}
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+                <thead className="bg-gray-50 dark:bg-neutral-800">
+                  <tr>
+                    {[
+                      '#',
+                      'Coin',
+                      'Price',
+                      '1h',
+                      '24h',
+                      '7d',
+                      '24h Volume',
+                      'Mkt Cap',
+                      'Last 7 days'
+                    ].map((header) => (
+                      <th
+                        key={header}
+                        scope="col"
+                        className="px-6 py-3 text-start whitespace-nowrap"
+                      >
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
+                          {header}
+                        </span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+                  {data.map((item) => (
+                    <tr key={item.id}>
+                      <td className="whitespace-nowrap px-6 py-3">{item.rank}</td>
+                      <td className="whitespace-nowrap px-6 py-3 flex items-center gap-x-2">
+                        <span className="font-semibold text-sm text-gray-800 dark:text-white">
+                          {item.name}
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-neutral-500">
+                          {item.nameid}
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-3">${item.price_usd}</td>
+                      <td className="whitespace-nowrap px-6 py-3 text-red-500">
+                        {item.percent_change_1h}%
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-3 text-green-500">
+                        {item.percent_change_24h}%
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-3 text-red-500">
+                        {item.percent_change_7d}%
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-3">${item.volume24}</td>
+                      <td className="whitespace-nowrap px-6 py-3">${item.market_cap_usd}</td>
+                      <td className="whitespace-nowrap px-6 py-3">📊</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      ))}
+      </div>
     </div>
   );
 };
